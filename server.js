@@ -8,7 +8,9 @@
 
     // configuration =================
 
-    mongoose.connect('mongodb://node:nodeuser@mongo.onmodulus.net:27017/uwO3mypu');     // connect to mongoDB database on modulus.io
+    //mongoose.connect('mongodb://node:nodeuser@mongo.onmodulus.net:27017/uwO3mypu');     // connect to mongoDB database on modulus.io
+    //mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://node:nodeuser@mongo.onmodulus.net:27017/uwO3mypu'); 
+    mongoose.connect(process.env.MONGOLAB_URI);
 
     app.set('port', (process.env.PORT || 3000)); 
     app.use(express.static(__dirname + '/public'));                 // set the static files location /public/img will be /img for users
