@@ -7,10 +7,14 @@
     var methodOverride = require('method-override'); // simulate DELETE and PUT (express4)
 
     // configuration =================
-
-    //mongoose.connect('mongodb://node:nodeuser@mongo.onmodulus.net:27017/uwO3mypu');     // connect to mongoDB database on modulus.io
-    //mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://node:nodeuser@mongo.onmodulus.net:27017/uwO3mypu'); 
-    mongoose.connect(process.env.MONGOLAB_URI);
+    if (process.env.MONGOLAB_URI) {
+        mongoose.connect(process.env.MONGOLAB_URI); 
+    }
+    else {
+        console.error("Error: Unable to connect to datbase. current MONGOLAB_URI config is ", 
+            process.env.MONGOLAB_URI);
+        //redirect every request to 400
+    }
 
     app.set('port', (process.env.PORT || 3000)); 
     app.use(express.static(__dirname + '/public'));                 // set the static files location /public/img will be /img for users
@@ -82,7 +86,7 @@
        
         // application -------------------------------------------------------------
         app.get('*', function(req, res) {
-            res.sendFile('./public/index.html'); // load the single view file (angular will handle the page changes on the front-end)
+            res.sendFile('./public/index.html', {root: __dirname}); // load the single view file (angular will handle the page changes on the front-end)
         });
 
         
